@@ -7,6 +7,10 @@ export const login = async (req, res) => {
 
         const { email, password } = req.body
         console.log(DB_DATABASE)
+        console.log(DB_PASSWORD)
+        console.log(DB_HOST)
+        console.log(DB_USER)
+        console.log(email)
         const [row] = await pool.query("SELECT * FROM user WHERE email = ?", [email])
 
         if (row.length <= 0) {
