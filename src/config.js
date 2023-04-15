@@ -7,3 +7,9 @@ export const DB_USER = process.env.DB_USER || 'root'
 export const DB_PASSWORD = process.env.DB_PASSWORD || 'root'
 export const DB_HOST = process.env.DB_HOST || 'localhost'
 export const DB_DATABASE = process.env.DB_DATABASE || 'gym'
+
+export const ADMIN_EMAIL = process.env.ADMIN_EMAIL
+export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
+export const ADMIN_NAME = process.env.ADMIN_NAME
+export const ADMIN_LAST_NAME = process.env.ADMIN_LAST_NAME
+export const ADMIN_ROLE = process.env.ADMIN_ROLE

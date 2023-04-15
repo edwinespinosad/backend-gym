@@ -1,5 +1,5 @@
 import express from 'express'
-import jwt  from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { pool } from './db.js'
 import usersRoutes from './routes/users.routes.js'
 import clientsRoutes from './routes/clients.routes.js'
@@ -13,6 +13,8 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url';
+import './libs/initialSetup.js'
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
