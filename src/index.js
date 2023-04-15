@@ -13,7 +13,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url';
-import './libs/initialSetup.js'
+// import './libs/initialSetup.js'
 
 
 const __filename = fileURLToPath(import.meta.url);

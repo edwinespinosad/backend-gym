@@ -17,7 +17,7 @@ CREATE TABLE user(
     active BOOLEAN DEFAULT true,
     fk_id_role_user INTEGER,
     FOREIGN KEY (fk_id_role_user) REFERENCES role_user(id),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE membership(
@@ -27,7 +27,7 @@ CREATE TABLE membership(
     price FLOAT,
     benefits VARCHAR(255),
     active BOOLEAN DEFAULT true,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE client(
@@ -53,7 +53,7 @@ CREATE TABLE instructor(
     email VARCHAR(255),
     phone VARCHAR(10),
     active BOOLEAN DEFAULT true,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE membership_purchase (
@@ -63,5 +63,5 @@ CREATE TABLE membership_purchase (
   price DECIMAL(10,2) NOT NULL,
   FOREIGN KEY (fk_id_membership) REFERENCES membership(id),
   FOREIGN KEY (fk_id_client) REFERENCES client(id),
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
