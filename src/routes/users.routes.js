@@ -17,7 +17,7 @@ const upload = multer({ storage })
 
 const router = Router()
 
-router.get('/users', authMiddleware, getUsers)
+router.get('/users', getUsers)
 router.get('/users/:id', authMiddleware, getUser)
 router.post('/users', authMiddleware, upload.single('file'), createUser)
 router.patch('/users/:id', authMiddleware, upload.single('file'), updateUser)
