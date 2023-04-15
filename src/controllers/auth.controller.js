@@ -1,10 +1,12 @@
 import { pool } from "../db.js";
 import jwt from 'jsonwebtoken';
+import { DB_HOST, DB_DATABASE, DB_PASSWORD, DB_USER } from '../config.js';
 
 export const login = async (req, res) => {
     try {
 
         const { email, password } = req.body
+        console.log(DB_DATABASE)
         const [row] = await pool.query("SELECT * FROM user WHERE email = ?", [email])
 
         if (row.length <= 0) {
@@ -27,6 +29,7 @@ export const login = async (req, res) => {
             res.json({ success: false, message: 'Credenciales de inicio de sesión inválidas' });
         }
     } catch (error) {
+        console.log(DB_DATABASE)
         console.log(error)
         return res.status(500).json({
             message: 'Algo fue mal :('
