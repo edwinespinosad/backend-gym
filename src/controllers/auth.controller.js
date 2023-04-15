@@ -6,7 +6,7 @@ export const login = async (req, res) => {
 
         const { email, password } = req.body
         const [row] = await pool.query("SELECT * FROM user WHERE email = ?", [email])
-        
+
         if (row.length <= 0) {
             return res.json({
                 message: "No se encontró el usuario"
@@ -27,6 +27,7 @@ export const login = async (req, res) => {
             res.json({ success: false, message: 'Credenciales de inicio de sesión inválidas' });
         }
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             message: 'Algo fue mal :('
         })
@@ -44,6 +45,7 @@ export const isLogged = async (req, res) => {
         req.user = verified;
         res.json({ valid: 'Valido', success: true, user: verified })
     } catch (err) {
+        console.log(err)
         res.json({ success: false, message: 'Token invalido' });
     }
 
