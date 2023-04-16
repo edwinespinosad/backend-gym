@@ -1,6 +1,6 @@
 import { pool } from "../db.js";
 import jwt from 'jsonwebtoken';
-import { DB_HOST, DB_DATABASE, DB_PASSWORD, DB_USER } from '../config.js';
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } from '../config.js';
 
 export const login = async (req, res) => {
     try {
@@ -29,7 +29,8 @@ export const login = async (req, res) => {
             res.json({ success: false, message: 'Credenciales de inicio de sesión inválidas' });
         }
     } catch (error) {
-        console.log(DB_DATABASE)
+        console.log(DB_NAME)
+        console.log(DB_PORT)
         console.log(error)
         return res.status(500).json({
             message: 'Algo fue mal :('
