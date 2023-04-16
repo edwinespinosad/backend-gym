@@ -1,12 +1,12 @@
 import { pool } from "../db.js";
 import jwt from 'jsonwebtoken';
-import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } from '../config.js';
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER, DB_PORT } from '../config.js';
 
 export const login = async (req, res) => {
     try {
 
         const { email, password } = req.body
-        
+
         const [row] = await pool.query("SELECT * FROM user WHERE email = ?", [email])
 
         if (row.length <= 0) {
