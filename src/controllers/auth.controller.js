@@ -49,7 +49,6 @@ export const isLogged = async (req, res) => {
         req.user = verified;
         res.json({ valid: 'Valido', success: true, user: verified })
     } catch (err) {
-        console.log(err)
         res.json({ success: false, message: 'Token invalido' });
     }
 

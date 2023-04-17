@@ -1,4 +1,11 @@
+import { getStorage, ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { pool } from "../db.js";
+import config from '../config/firebase.config.js';
+import { initializeApp } from "firebase/app";
+
+initializeApp(config.firebaseConfig)
+// import { storage } from "../routes/instructor.routes.js";
+const storage = getStorage();
 
 export const getInstructors = async (req, res) => {
     try {
@@ -28,17 +35,30 @@ export const getInstructor = async (req, res) => {
 
 export const createInstructor = async (req, res) => {
     try {
+        // Upload to Firebase
+        const ext = req.file.originalname.split('.').pop()
+
+        const storageRef = ref(storage, `files/${Date.now()}.${ext}`);
+
+        const metadata = {
+            contentType: req.file.mimetype,
+        };
+
+        const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        // Storage data in MySQL
         const { name, last_name, email, phone } = req.body
-        const { filename } = req.file
 
         const [rows] = await pool.query(
             'INSERT INTO instructor (image,name,last_name,email,phone) VALUES (?, ?, ?, ?, ?)',
-            [`uploads/${filename}`, name, last_name, email, phone]
+            [downloadURL, name, last_name, email, phone]
         )
 
-        res.send({ rows, success: true })
+        res.send({ rows, success: true, downloadURL })
 
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             message: 'Algo fue mal :('
         })
@@ -65,13 +85,25 @@ export const updateInstructor = async (req, res) => {
     try {
         const { id } = req.params
         const { name, last_name, email, phone, change_image } = req.body
-        
+
         if (change_image === 'true') {
             const { filename } = req.file
-            
+
+            const ext = req.file.originalname.split('.').pop()
+
+            const storageRef = ref(storage, `files/${Date.now()}.${ext}`);
+
+            const metadata = {
+                contentType: req.file.mimetype,
+            };
+
+            const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+
+            const downloadURL = await getDownloadURL(snapshot.ref);
+
             const [result] = await pool.query(
                 'UPDATE instructor SET image =IFNULL(?,image), name =?, last_name =?, email =?, phone=? WHERE id =?',
-                [`uploads/${filename}`, name, last_name, email, phone, id]
+                [downloadURL, name, last_name, email, phone, id]
             )
 
             if (result.affectedRows == 0) return res.status(404).json({
@@ -91,7 +123,7 @@ export const updateInstructor = async (req, res) => {
 
             res.send({ message: 'Actualizado correctamente', success: true })
         }
-        
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({
