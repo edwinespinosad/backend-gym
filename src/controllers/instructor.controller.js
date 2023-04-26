@@ -4,7 +4,7 @@ import config from '../config/firebase.config.js';
 import { initializeApp } from "firebase/app";
 
 initializeApp(config.firebaseConfig)
-// import { storage } from "../routes/instructor.routes.js";
+
 const storage = getStorage();
 
 export const getInstructors = async (req, res) => {

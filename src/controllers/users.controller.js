@@ -31,12 +31,13 @@ export const createUser = async (req, res) => {
     try {
         const { name, last_name, email, password, phone, fk_id_role_user } = req.body
 
-        const image = req.file.path
+        // const image = req.file.path
 
-        const [rows] = await pool.query('INSERT INTO user (image, name,last_name,email,password,phone,fk_id_role_user) VALUES (?, ?, ?, ?, ?, ?, ?)', [image, name, last_name, email, password, phone, fk_id_role_user])
+        const [rows] = await pool.query('INSERT INTO user (name,last_name,email,password,phone,fk_id_role_user) VALUES (?, ?, ?, ?, ?, ?)', [name, last_name, email, password, phone, fk_id_role_user])
 
         res.send({ rows, success: true })
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             message: 'Algo fue mal :('
         })
