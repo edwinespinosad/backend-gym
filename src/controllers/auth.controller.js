@@ -5,9 +5,13 @@ import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER, DB_PORT } from '../config.js';
 export const login = async (req, res) => {
     try {
 
-        const { email, password } = req.body
-
-        const [row] = await pool.query("SELECT * FROM user WHERE email = ?", [email])
+        const { email, password, type } = req.body
+        let row = null
+        if (type == 1) {
+            [row] = await pool.query("SELECT * FROM user WHERE email = ?", [email])
+        } else {
+            [row] = await pool.query("SELECT * FROM client WHERE email = ?", [email])
+        }
 
         if (row.length <= 0) {
             return res.json({

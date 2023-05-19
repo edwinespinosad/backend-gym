@@ -7,6 +7,9 @@ import membershipRoutes from './routes/membership.routes.js'
 import instructorRoutes from './routes/instructor.routes.js'
 import authRoutes from './routes/auth.routes.js'
 import dashboardRoutes from './routes/dashboard.routes.js'
+import membershipClientRoutes from './routes/membership_client.routes.js'
+import routineRoutes from './routes/routine.routes.js'
+import goalRoutes from './routes/goal.routes.js'
 
 import { PORT } from './config.js'
 import bodyParser from 'body-parser'
@@ -14,7 +17,6 @@ import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url';
 import './libs/initialSetup.js'
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,11 +28,13 @@ app.use(express.json({ limit: '50mb' }))
 
 app.use('/api', usersRoutes)
 app.use('/api', clientsRoutes)
-// app.use('/api', membershipRoutes)
+app.use('/api', membershipClientRoutes)
 app.use('/api', membershipRoutes)
 app.use('/api', instructorRoutes)
 app.use('/api', authRoutes)
 app.use('/api', dashboardRoutes)
+app.use('/api', routineRoutes)
+app.use('/api', goalRoutes)
 
 app.use(express.static(path.join(__dirname, 'public')))
 
