@@ -55,7 +55,7 @@ export const createInstructor = async (req, res) => {
             [downloadURL, name, last_name, email, password, phone]
         )
 
-        res.send({ rows, success: true, downloadURL })
+        res.send({ rows, success: true, downloadURL, password })
 
     } catch (error) {
         console.log(error)
@@ -113,8 +113,8 @@ export const updateInstructor = async (req, res) => {
             res.send({ message: 'Actualizado correctamente', success: true })
         } else {
             const [result] = await pool.query(
-                'UPDATE instructor SET name =?, last_name =?, email =?, phone=? WHERE id =?',
-                [name, last_name, email, phone, id]
+                'UPDATE instructor SET name =?, last_name =?, email =?, password=?, phone=? WHERE id =?',
+                [name, last_name, email, password, phone, id]
             )
 
             if (result.affectedRows == 0) return res.status(404).json({
