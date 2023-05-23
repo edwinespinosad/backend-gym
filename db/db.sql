@@ -107,3 +107,8 @@ CREATE TABLE client_has_sizes (
   PRIMARY KEY (id),
   FOREIGN KEY (fk_id_client) REFERENCES client(id)
 );
+
+CREATE TABLE suggestions(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    description TEXT,
+);

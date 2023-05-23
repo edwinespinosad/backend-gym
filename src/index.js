@@ -12,6 +12,7 @@ import routineRoutes from './routes/routine.routes.js'
 import goalRoutes from './routes/goal.routes.js'
 import expenseRoutes from './routes/expense.routes.js'
 import mealRoutes from './routes/meal.routes.js'
+import suggestionRoutes from './routes/suggestion.routes.js'
 
 import { PORT } from './config.js'
 import bodyParser from 'body-parser'
@@ -39,6 +40,7 @@ app.use('/api', routineRoutes)
 app.use('/api', goalRoutes)
 app.use('/api', expenseRoutes)
 app.use('/api', mealRoutes)
+app.use('/api', suggestionRoutes)
 
 app.use(express.static(path.join(__dirname, 'public')))
 
