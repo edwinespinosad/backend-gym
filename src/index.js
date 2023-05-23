@@ -10,6 +10,8 @@ import dashboardRoutes from './routes/dashboard.routes.js'
 import membershipClientRoutes from './routes/membership_client.routes.js'
 import routineRoutes from './routes/routine.routes.js'
 import goalRoutes from './routes/goal.routes.js'
+import expenseRoutes from './routes/expense.routes.js'
+import mealRoutes from './routes/meal.routes.js'
 
 import { PORT } from './config.js'
 import bodyParser from 'body-parser'
@@ -35,6 +37,8 @@ app.use('/api', authRoutes)
 app.use('/api', dashboardRoutes)
 app.use('/api', routineRoutes)
 app.use('/api', goalRoutes)
+app.use('/api', expenseRoutes)
+app.use('/api', mealRoutes)
 
 app.use(express.static(path.join(__dirname, 'public')))
 

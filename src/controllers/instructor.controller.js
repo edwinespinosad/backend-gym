@@ -48,11 +48,11 @@ export const createInstructor = async (req, res) => {
 
         const downloadURL = await getDownloadURL(snapshot.ref);
         // Storage data in MySQL
-        const { name, last_name, email, phone } = req.body
+        const { name, last_name, email, phone, password } = req.body
 
         const [rows] = await pool.query(
-            'INSERT INTO instructor (image,name,last_name,email,phone) VALUES (?, ?, ?, ?, ?)',
-            [downloadURL, name, last_name, email, phone]
+            'INSERT INTO instructor (image,name,last_name,email,password,phone) VALUES (?, ?, ?, ?, ?, ?)',
+            [downloadURL, name, last_name, email, password, phone]
         )
 
         res.send({ rows, success: true, downloadURL })
@@ -84,7 +84,7 @@ export const deleteInstructor = async (req, res) => {
 export const updateInstructor = async (req, res) => {
     try {
         const { id } = req.params
-        const { name, last_name, email, phone, change_image } = req.body
+        const { name, last_name, email, password, phone, change_image } = req.body
 
         if (change_image === 'true') {
             const { filename } = req.file
@@ -102,8 +102,8 @@ export const updateInstructor = async (req, res) => {
             const downloadURL = await getDownloadURL(snapshot.ref);
 
             const [result] = await pool.query(
-                'UPDATE instructor SET image =IFNULL(?,image), name =?, last_name =?, email =?, phone=? WHERE id =?',
-                [downloadURL, name, last_name, email, phone, id]
+                'UPDATE instructor SET image =IFNULL(?,image), name =?, last_name =?, email =?, password =?, phone=? WHERE id =?',
+                [downloadURL, name, last_name, password, email, phone, id]
             )
 
             if (result.affectedRows == 0) return res.status(404).json({

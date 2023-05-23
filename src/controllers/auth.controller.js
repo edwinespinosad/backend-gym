@@ -9,8 +9,10 @@ export const login = async (req, res) => {
         let row = null
         if (type == 1) {
             [row] = await pool.query("SELECT * FROM user WHERE email = ?", [email])
-        } else {
+        } else if(type === 2) {
             [row] = await pool.query("SELECT * FROM client WHERE email = ?", [email])
+        }else{
+            [row] = await pool.query("SELECT * FROM instructor WHERE email = ?", [email])
         }
 
         if (row.length <= 0) {

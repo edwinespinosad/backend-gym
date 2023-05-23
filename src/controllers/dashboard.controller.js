@@ -1,5 +1,26 @@
 import { pool } from "../db.js";
 
+export const getEarnings = async (req, res) => {
+    try {
+        const membershipPurchaseQuery = 'SELECT SUM(price) AS total FROM membership_purchase';
+        const [membershipPurchaseRows] = await pool.query(membershipPurchaseQuery);
+        const membershipPurchaseTotal = membershipPurchaseRows[0].total || 0;
+
+        const expenseQuery = 'SELECT SUM(cost) AS total FROM expense';
+        const [expenseRows] = await pool.query(expenseQuery);
+        const expenseTotal = expenseRows[0].total || 0;
+
+        const earnings = new Intl.NumberFormat().format(membershipPurchaseTotal - expenseTotal);
+
+        res.json({ earnings });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Algo salió mal :('
+        });
+    }
+};
+
+
 export const getIncomes = async (req, res) => {
     try {
         let query = "";
@@ -25,11 +46,64 @@ export const getIncomes = async (req, res) => {
         }
 
         const [rows] = await pool.query(query);
-        res.json({ incomes: rows });
+
+        const formattedRows = rows.map(row => {
+            const formattedTotal = new Intl.NumberFormat().format(row.total);
+            return { ...row, total: formattedTotal };
+        });
+
+        res.json({ incomes: formattedRows });
     } catch (error) {
         return res.status(500).json({
             message: 'Algo fue mal :('
         })
+    }
+};
+
+export const getExpenses = async (req, res) => {
+    try {
+        let query = "";
+        switch (req.query.periodo) {
+            case 'semanal':
+                query = `
+                SELECT WEEK(timestamps) AS week, SUM(cost) AS total
+                FROM expense
+                WHERE YEAR(timestamps) = YEAR(NOW())
+                GROUP BY week
+                ORDER BY week ASC
+                `;
+                break;
+            case 'mensual':
+                query = `
+                SELECT MONTH(timestamps) AS month, SUM(cost) AS total
+                FROM expense
+                WHERE YEAR(timestamps) = YEAR(NOW())
+                GROUP BY month
+                ORDER BY month ASC
+                `;
+                break;
+            case 'anual':
+                query = `
+                SELECT YEAR(timestamps) AS year, SUM(cost) AS total
+                FROM expense
+                GROUP BY year
+                ORDER BY year ASC
+                `;
+                break;
+        }
+
+        const [rows] = await pool.query(query);
+
+        const formattedRows = rows.map(row => {
+            const formattedTotal = new Intl.NumberFormat().format(row.total);
+            return { ...row, total: formattedTotal };
+        });
+
+        res.json({ expenses: formattedRows });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Algo salió mal :('
+        });
     }
 };
 

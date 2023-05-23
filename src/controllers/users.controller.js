@@ -31,8 +31,6 @@ export const createUser = async (req, res) => {
     try {
         const { name, last_name, email, password, phone, fk_id_role_user } = req.body
 
-        // const image = req.file.path
-
         const [rows] = await pool.query('INSERT INTO user (name,last_name,email,password,phone,fk_id_role_user) VALUES (?, ?, ?, ?, ?, ?)', [name, last_name, email, password, phone, fk_id_role_user])
 
         res.send({ rows, success: true })
@@ -101,6 +99,4 @@ export const statusUser = async (req, res) => {
         })
     }
 }
-
-
 
