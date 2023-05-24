@@ -230,7 +230,7 @@ export const getClientRoutines = async (req, res) => {
         if (rows.length <= 0) return res.send({
             message: "No se encontraron rutinas"
         })
-        res.json({ rows });
+        res.json({ rows, success: true });
     } catch (error) {
         console.log(error)
         return res.status(500).json({
