@@ -3,7 +3,12 @@ import { pool } from "../db.js";
 export const getExpenses = async (req, res) => {
     try {
         const [rows] = await pool.query("SELECT * FROM expense")
-        res.json({ rows });
+
+        const formattedRows = rows.map(row => {
+            const formattedTotal = new Intl.NumberFormat().format(row.cost);
+            return { ...row, total: '$' + formattedTotal };
+        });
+        res.json({ rows: formattedRows });
     } catch (error) {
         console.log(error)
         return res.send({

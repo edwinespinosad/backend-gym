@@ -22,7 +22,8 @@ export const getClients = async (req, res) => {
                 GROUP BY fk_id_client
             )
         ) AS m ON c.id = m.fk_id_client
-        LEFT JOIN membership as me ON me.id = m.fk_id_membership;
+        LEFT JOIN membership as me ON me.id = m.fk_id_membership
+        ORDER BY c.name ASC;
         `);
 
         res.json({ rows });
